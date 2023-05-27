@@ -33,7 +33,9 @@ prop_split = undefined
 -- Problema 4
 
 copia :: Int -> Comanda -> Comanda
-copia = undefined
+copia n c
+  | n <= 1 = c
+  | otherwise = c :#: copia (n-1) c
 
 -- Problema 5
 
