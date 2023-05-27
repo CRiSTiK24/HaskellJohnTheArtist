@@ -40,7 +40,8 @@ copia n c
 -- Problema 5
 
 pentagon :: Distancia -> Comanda
-pentagon = undefined
+pentagon d = copia 5 (Avança d :#: Gira 72)
+
 
 -- Problema 6
 
