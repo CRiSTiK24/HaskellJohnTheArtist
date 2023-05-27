@@ -86,7 +86,12 @@ prop_poligon_pentagon d = prop_equivalent (poligon d 5 72) (pentagon d)
 -- Problema 7
 
 espiral :: Distancia -> Int -> Distancia -> Angle -> Comanda
-espiral = undefined
+espiral _ 0 _ _ = Para
+espiral costat n pas angle = avança :#: gira :#: espiral novaDistancia (n-1) pas angle
+  where
+    avança = Avança costat
+    gira = Gira angle
+    novaDistancia = costat + pas
 
 -- Problema 9
 
