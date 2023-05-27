@@ -7,7 +7,15 @@ import Debug.Trace
 -- Problema 1
 
 separa :: Comanda -> [Comanda]
-separa = undefined
+--Casos base
+separa (Gira a) = [Gira a]
+separa (Avança a) = [Avança a]
+--separa Para a = []
+--Cas recursius
+separa (a :#: b) = separa a ++ separa b
+
+
+
 
 -- Problema 2
 

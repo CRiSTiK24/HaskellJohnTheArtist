@@ -179,3 +179,12 @@ instance Arbitrary Comanda where
           cmd n  |  n <= 0     =  oneof [liftM (Avança . abs) arbitrary,
                                          liftM Gira arbitrary ]
                  |  otherwise  =  liftM2 (:#:) (cmd (n `div` 2)) (cmd (n `div`2))
+
+
+-- Tests
+
+instance Show Comanda where
+  show (Avança d) = "Avança " ++ show d
+  show (Gira a) = "Gira " ++ show a
+  show (c1 :#: c2) = show c1 ++ " :#: " ++ show c2
+
