@@ -64,19 +64,24 @@ prop_split a = not (any isInvalid (separa a))
 -- Problema 4
 
 copia :: Int -> Comanda -> Comanda
-copia = undefined
+copia n c
+  | n <= 1 = c
+  | otherwise = c :#: copia (n-1) c
 
 -- Problema 5
 
 pentagon :: Distancia -> Comanda
-pentagon = undefined
+pentagon d = copia 5 (Avança d :#: Gira 72)
+
 
 -- Problema 6
 
 poligon :: Distancia -> Int -> Angle -> Comanda
-poligon = undefined
+poligon d n a = copia n (Avança d :#: Gira a)
 
-prop_poligon_pentagon = undefined
+prop_poligon_pentagon :: Distancia -> Bool
+prop_poligon_pentagon d = prop_equivalent (poligon d 5 72) (pentagon d)
+
 
 -- Problema 7
 
