@@ -1,7 +1,9 @@
 module UdGraphic (
     Comanda(..),
     Distancia,
-    Angle
+    Angle,
+    execute
+    --executenot
     )
     where
 
@@ -145,9 +147,50 @@ data Comanda   = Avança Distancia
 -- Problema 8
 -- Pas de comandes a lines a pintar per GL graphics
 
-execute :: Comanda -> [Ln]
-execute c  =  undefined
+separa' :: Comanda -> [Comanda] --copio el separa
+--Casos base
+separa' (Gira a) = [Gira a]
+separa' (Avança a) = [Avança a]
+separa' (Para) = []
+--Cas recursius
+separa' (a :#: b) = separa' a ++ separa' b
 
+-- Problema 9
+-- Pas de comandes a lines a pintar per GL graphics
+execute :: Comanda -> [Ln]
+execute c = execute' (separa' c) 0 (Pnt 0 0)
+  where
+    execute' :: [Comanda] -> Angle -> Pnt -> [Ln]
+    execute' [] _ _ = []
+    execute' (Avança d : cs) angle (Pnt x y) = Ln negre origin end : execute' cs angle end
+      where
+        origin = Pnt x y
+        end = calcularDesti (Pnt x y) d angle
+    execute' (Gira a : cs) angle (Pnt x y) = execute' cs angleFinal (Pnt x y)
+      where
+        angleFinal = angle - a -- per algun motiu, als exemples de l'enunciat es fan els girs en sentit horari, en comptes de sentit anhorari com diu al pricipi 
+    execute' (Para : cs) angle (Pnt x y) = execute' cs angle (Pnt x y)
+
+    calcularDesti :: Pnt -> Distancia -> Angle -> Pnt
+    calcularDesti (Pnt x1 y1) distancia angle =
+      let angleRad = angle * pi / 180
+          newX = x1 + distancia * cos angleRad
+          newY = y1 + distancia * sin angleRad
+      in Pnt newX newY
+    --Si la comanda es avança, llavors avançem la distancia en el angle indicat
+    --Si la comanda es gira, llavors girem el angle indicat, per tal de que si es torna a avançar, es tingui en compte
+    --Si la comanda es para, llavors no fem res
+    --Si la comanda es :#: llavors executem les dues comandes. Es important de que si la primera cambia l'angle, la segona comanda utilitzi el angle de la primera
+    
+-- executenot :: [Comanda] -> Angle -> Pnt -> [Ln]
+-- executenot [] _ _ = []
+-- executenot (Avança d : cs) angle (Pnt x y) =
+--   Ln negre origin end : executenot cs angle end
+--   where
+--     origin = Pnt x y
+--     end = calcularDesti (Pnt x y) d angle
+-- executenot (Gira a : cs) angle (Pnt x y) = executenot cs (angle + a) (Pnt x y)
+-- executenot (Para : cs) angle (Pnt x y) = executenot cs angle (Pnt x y)
 
 -- Rescales all points in a list of lines
 --  from an arbitrary scale
@@ -190,4 +233,3 @@ instance Show Comanda where
   show (Gira a) = "Gira " ++ show a
   show Para = "Para"
   show (c1 :#: c2) = show c1 ++ " :#: " ++ show c2
-
