@@ -137,7 +137,9 @@ type Angle     = Float
 type Distancia = Float
 data Comanda   = Avança Distancia
                | Gira Angle
+               | Para
                | Comanda :#: Comanda
+                deriving (Eq)
 
 
 -- Problema 8
@@ -186,5 +188,6 @@ instance Arbitrary Comanda where
 instance Show Comanda where
   show (Avança d) = "Avança " ++ show d
   show (Gira a) = "Gira " ++ show a
+  show Para = "Para"
   show (c1 :#: c2) = show c1 ++ " :#: " ++ show c2
 
