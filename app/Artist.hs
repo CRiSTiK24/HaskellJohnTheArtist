@@ -15,12 +15,12 @@ separa (Avança a) = [Avança a]
 separa (a :#: b) = separa a ++ separa b
 
 
-
-
 -- Problema 2
 
 ajunta :: [Comanda] -> Comanda
-ajunta = undefined
+ajunta [c] = c
+ajunta (c:cs) = c :#: ajunta cs
+
 
 -- Problema 3
 
