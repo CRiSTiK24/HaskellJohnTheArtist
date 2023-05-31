@@ -168,7 +168,7 @@ execute c = execute' (separa' c) 0 (Pnt 0 0)
         end = calcularDesti (Pnt x y) d angle
     execute' (Gira a : cs) angle (Pnt x y) = execute' cs angleFinal (Pnt x y)
       where
-        angleFinal = angle - a -- per algun motiu, als exemples de l'enunciat es fan els girs en sentit horari, en comptes de sentit anhorari com diu al pricipi 
+        angleFinal = angle - a -- TODO: per algun motiu, als exemples de l'enunciat es fan els girs en sentit horari, en comptes de sentit anhorari com diu al pricipi 
     execute' (Para : cs) angle (Pnt x y) = execute' cs angle (Pnt x y)
 
     calcularDesti :: Pnt -> Distancia -> Angle -> Pnt
