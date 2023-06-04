@@ -2,7 +2,13 @@ module UdGraphic (
     Comanda(..),
     Distancia,
     Angle,
-    execute
+    blanc,
+    negre,
+    vermell,
+    verd,
+    blau,
+    execute,
+    display
     --executenot
     )
     where
