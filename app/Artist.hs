@@ -122,11 +122,8 @@ optimitza'' c1 c2 = c1 :#: c2
 -- Problema 10
 
 triangle :: Int -> Comanda
-triangle n = triangleAux n
-
-triangleAux :: Int -> Comanda
-triangleAux 0 = (ColorLlapis blau) :#: Avança 1
-triangleAux n = triangleAux (n - 1) :#: Gira 90 :#: triangleAux (n - 1) :#: Gira (270) :#: triangleAux (n - 1) :#: Gira (270) :#: triangleAux (n - 1) :#: Gira 90 :#: triangleAux (n - 1)
+triangle 0 = Avança 1
+triangle n = triangle (n-1) :#: Gira 90 :#: triangle (n-1) :#: Gira 270 :#: triangle (n-1) :#: Gira 270 :#: triangle (n-1) :#: Gira 90 :#: triangle (n-1)
 
 
 -- Problema 11
