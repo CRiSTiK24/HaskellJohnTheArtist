@@ -22,6 +22,11 @@ ajunta :: [Comanda] -> Comanda
 ajunta [c] = c :#: Para
 ajunta (c:cs) = c :#: ajunta cs
 
+--Versió sense Para pel problema 9
+ajunta' :: [Comanda] -> Comanda
+ajunta' [c] = c
+ajunta' (c:cs) = c :#: ajunta' cs
+
 
 -- Problema 3
 
@@ -59,14 +64,13 @@ prop_split a = not (any isInvalid (separa a))
 -- +++ OK, passed 1 test.
 
 
-
-
 -- Problema 4
 
 copia :: Int -> Comanda -> Comanda
 copia n c
   | n <= 1 = c
   | otherwise = c :#: copia (n-1) c
+
 
 -- Problema 5
 
@@ -93,32 +97,92 @@ espiral costat n pas angle = avança :#: gira :#: espiral novaDistancia (n-1) pa
     gira = Gira angle
     novaDistancia = costat + pas
 
+
 -- Problema 9
 
 optimitza :: Comanda -> Comanda
-optimitza = undefined
+optimitza comanda = if c == comanda
+                    then c
+                    else optimitza c
+  where
+    c = ajunta'(separa(optimitza' comanda))
+
+optimitza' :: Comanda -> Comanda
+optimitza' (Avança 0) = Para
+optimitza' (Gira 0) = Para
+optimitza' (c1 :#: c2) = optimitza'' (optimitza' c1) (optimitza' c2)
+optimitza' c = c
+
+optimitza'' :: Comanda -> Comanda -> Comanda
+optimitza'' (Avança a1) (Avança a2) = Avança (a1 + a2)
+optimitza'' (Gira g1) (Gira g2) = Gira (g1 + g2)
+optimitza'' c1 c2 = c1 :#: c2
+
 
 -- Problema 10
 
 triangle :: Int -> Comanda
-triangle = undefined
+triangle n = triangleAux n
+
+triangleAux :: Int -> Comanda
+triangleAux 0 = ColorLlapis blau :#: Avança 1
+triangleAux n = triangleAux (n - 1) :#: Gira 90 :#: triangleAux (n - 1) :#: Gira (-90) :#: triangleAux (n - 1) :#: Gira (-90) :#: triangleAux (n - 1) :#: Gira 90 :#: triangleAux (n - 1)
+
 
 -- Problema 11
 
 fulla :: Int -> Comanda
-fulla = undefined
+fulla n = fullaf n
+
+fullaf :: Int -> Comanda
+fullaf 0 = ColorLlapis blau :#: Avança 1 
+fullaf n = fullag (n - 1) :#: Branca (Gira -45 :#: fullaf (n - 1)) :#: Branca (Gira 45 :#: fullaf (n - 1)) :#: Branca (fullag (n - 1) :#: fullaf (n - 1)) 
+
+fullag :: Int -> Comanda
+fullag 0 = ColorLlapis vermell :#: Avança 1
+fullag n = fullag (n-1) :#: fullag (n-1)
+
 
 -- Problema 12
 
 hilbert :: Int -> Comanda
-hilbert = undefined
+hilbert n = hilbertl n
+
+hilbertl :: Int -> Comanda
+hilbertl 0 = ColorLlapis blau :#: Avança 1
+hilbertl n = Gira 90 :#: hilbertr (n-1) :#: hilbertf :#: Gira -90 :#: hilbertl (n-1) :#: hilbertf :#: hilbertl (n-1) :#: Gira -90 :#: hilbertf :#: hilbertr (n-1) :#:  Gira 90
+
+hilbertr :: Int -> Comanda
+hilbertr 0 = ColorLlapis verd :#: Avança 1 
+hilbertr n = Gira -90 :#: hilbertl (n-1) :#: hilbertf :#: Gira 90 :#: hilbertr (n-1) :#: hilbertf :#: hilbertr (n-1) :#: Gira 90 :#: hilbertf :#: hilbertl (n-1) :#:  Gira -90
+
+hilbertf :: Int -> Comanda
+hilbertf =  ColorLlapis vermell :#: Avança 1 
+
 
 -- Problema 13
 
 fletxa :: Int -> Comanda
-fletxa = undefined
+fletxa n = fletxaf n
+
+fletxaf :: Int -> Comanda
+fletxaf 0 = ColorLlapis blau :#: Avança 1 
+fletxaf n = fletxag (n-1) :#: Gira 90 :#: fletxaf (n-1) :#: Gira 90 :#: fletxag (n-1)
+
+fletxag :: Int -> Comanda
+fletxag 0 = Avança 1 :#: ColorLlapis vermell
+fletxag n = fletxaf (n-1) :#: Gira -90 :#: fletxag (n-1) :#: Gira -90 :#: fletxaf (n-1)
+
 
 -- Problema 14
 
 branca :: Int -> Comanda
-branca = undefined
+branca n = brancag n
+
+brancag :: Int -> Comanda
+brancag 0 = ColorLlapis blau :#: Avança 1 
+brancag n = brancaf (n-1) :#: Branca(Branca(brancag (n-1)) :#: Gira 90 :#: brancag (n-1)) :#: Gira 90 :#: brancaf (n-1) :#: Branca(Gira 90 :#: brancaf (n-1) :#: brancag (n-1)) Gira -90 :#: brancag (n-1)
+ 
+brancaf :: Int -> Comanda
+brancaf 0 = ColorLlapis vermell :#: Avança 1 
+brancaf n = brancaf (n-1) :#: brancaf (n-1)

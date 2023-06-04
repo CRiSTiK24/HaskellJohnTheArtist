@@ -140,8 +140,10 @@ type Distancia = Float
 data Comanda   = Avança Distancia
                | Gira Angle
                | Para
+               | Branca Comanda
                | Comanda :#: Comanda
-                deriving (Eq)
+               | ColorLlapis Llapis
+                deriving (Eq)
 
 
 -- Problema 8
