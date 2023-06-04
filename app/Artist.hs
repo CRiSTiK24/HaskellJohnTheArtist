@@ -12,6 +12,8 @@ separa :: Comanda -> [Comanda]
 separa (Gira a) = [Gira a]
 separa (Avança a) = [Avança a]
 separa (Para) = []
+separa (Branca a) = [Branca a]
+separa (ColorLlapis a) = [ColorLlapis a]
 --Cas recursius
 separa (a :#: b) = separa a ++ separa b
 
