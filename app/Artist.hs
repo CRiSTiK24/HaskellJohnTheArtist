@@ -132,11 +132,11 @@ fulla :: Int -> Comanda
 fulla n = fullaf n
 
 fullaf :: Int -> Comanda
-fullaf 0 = (ColorLlapis blau) :#: Avança 1 
+fullaf 0 = (ColorLlapis vermell) :#: Avança 1 
 fullaf n = fullag (n - 1) :#: Branca (Gira 315 :#: fullaf (n - 1)) :#: Branca (Gira 45 :#: fullaf (n - 1)) :#: Branca (fullag (n - 1) :#: fullaf (n - 1)) 
 
 fullag :: Int -> Comanda
-fullag 0 = (ColorLlapis vermell) :#: Avança 1
+fullag 0 = (ColorLlapis blau) :#: Avança 1
 fullag n = fullag (n-1) :#: fullag (n-1)
 
 
@@ -164,11 +164,11 @@ fletxa n = fletxaf n
 
 fletxaf :: Int -> Comanda
 fletxaf 0 = (ColorLlapis blau) :#: Avança 1 
-fletxaf n = fletxag (n-1) :#: Gira 90 :#: fletxaf (n-1) :#: Gira 90 :#: fletxag (n-1)
+fletxaf n = fletxag (n-1) :#: Gira 60 :#: fletxaf (n-1) :#: Gira 60 :#: fletxag (n-1)
 
 fletxag :: Int -> Comanda
 fletxag 0 = Avança 1 :#: (ColorLlapis vermell)
-fletxag n = fletxaf (n-1) :#: Gira 270 :#: fletxag (n-1) :#: Gira 270 :#: fletxaf (n-1)
+fletxag n = fletxaf (n-1) :#: Gira 300 :#: fletxag (n-1) :#: Gira 300 :#: fletxaf (n-1)
 
 
 -- Problema 14
@@ -178,7 +178,7 @@ branca n = brancag n
 
 brancag :: Int -> Comanda
 brancag 0 = (ColorLlapis blau) :#: Avança 1 
-brancag n = brancaf (n-1) :#: Branca(Branca(brancag (n-1)) :#: Gira 90 :#: brancag (n-1)) :#: Gira 90 :#: brancaf (n-1) :#: Branca(Gira 90 :#: brancaf (n-1) :#: brancag (n-1)) :#: Gira 270 :#: brancag (n-1)
+brancag n = brancaf (n-1) :#: Branca(Branca(brancag (n-1)) :#: Gira 22.5 :#: brancag (n-1)) :#: Gira 22.5 :#: brancaf (n-1) :#: Branca(Gira 22.5 :#: brancaf (n-1) :#: brancag (n-1)) :#: Gira 337.5 :#: brancag (n-1)
 
 brancaf :: Int -> Comanda
 brancaf 0 = (ColorLlapis vermell) :#: Avança 1 

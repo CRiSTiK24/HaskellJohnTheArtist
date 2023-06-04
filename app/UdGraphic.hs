@@ -160,24 +160,28 @@ separa' :: Comanda -> [Comanda] --copio el separa
 separa' (Gira a) = [Gira a]
 separa' (Avança a) = [Avança a]
 separa' (Para) = []
+separa' (Branca a) = [Branca a]
+separa' (ColorLlapis a) = [ColorLlapis a]
 --Cas recursius
 separa' (a :#: b) = separa' a ++ separa' b
 
 -- Problema 9
 -- Pas de comandes a lines a pintar per GL graphics
 execute :: Comanda -> [Ln]
-execute c = execute' (separa' c) 0 (Pnt 0 0)
+execute c = execute' (separa' c) 0 (Pnt 0 0) negre
   where
-    execute' :: [Comanda] -> Angle -> Pnt -> [Ln]
-    execute' [] _ _ = []
-    execute' (Avança d : cs) angle (Pnt x y) = Ln negre origin end : execute' cs angle end
+    execute' :: [Comanda] -> Angle -> Pnt -> Llapis -> [Ln]
+    execute' [] _ _ _ = []
+    execute' (Avança d : cs) angle (Pnt x y) color = Ln color origin end : execute' cs angle end color
       where
         origin = Pnt x y
         end = calcularDesti (Pnt x y) d angle
-    execute' (Gira a : cs) angle (Pnt x y) = execute' cs angleFinal (Pnt x y)
+    execute' (Gira a : cs) angle (Pnt x y) color = execute' cs angleFinal (Pnt x y) color
       where
         angleFinal = angle - a -- TODO: per algun motiu, als exemples de l'enunciat es fan els girs en sentit horari, en comptes de sentit anhorari com diu al pricipi 
-    execute' (Para : cs) angle (Pnt x y) = execute' cs angle (Pnt x y)
+    execute' (Para : cs) angle (Pnt x y) color = execute' cs angle (Pnt x y) color
+    execute' (Branca a : cs) angle (Pnt x y) color = execute' (separa' a) angle (Pnt x y) color ++ execute' cs angle (Pnt x y) color
+    execute' (ColorLlapis c : cs) angle (Pnt x y) color = execute' cs angle (Pnt x y) c
 
     calcularDesti :: Pnt -> Distancia -> Angle -> Pnt
     calcularDesti (Pnt x1 y1) distancia angle =
